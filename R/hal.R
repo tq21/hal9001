@@ -172,6 +172,7 @@
 #' preds <- predict(hal_fit, new_data = x)
 fit_hal <- function(X,
                     Y,
+                    penalty_factor = NULL,
                     formula = NULL,
                     X_unpenalized = NULL,
                     max_degree = ifelse(ncol(X) >= 20, 2, 3),
@@ -300,9 +301,9 @@ fit_hal <- function(X,
     fit_control$upper.limits <- formula$upper.limits
     fit_control$lower.limits <- formula$lower.limits
     penalty_factor <- formula$penalty_factors
-  } else {
-    penalty_factor <- NULL
-  }
+  } #else {
+    #penalty_factor <- NULL
+  #}
 
   # FUN! Quotes from HAL 9000, the robot from the film "2001: A Space Odyssey"
   if (yolo) hal9000()
@@ -348,6 +349,7 @@ fit_hal <- function(X,
     reduced_basis_map <- make_reduced_basis_map(x_basis, reduce_basis)
     x_basis <- x_basis[, reduced_basis_map]
     basis_list <- basis_list[reduced_basis_map]
+    penalty_factor <- penalty_factor[reduced_basis_map]
   } else {
     if (!is.null(reduce_basis)) {
       warning("Dropping reduce_basis; only applies if smoothness_orders = 0")
@@ -364,6 +366,7 @@ fit_hal <- function(X,
     unique_columns <- as.numeric(names(copy_map))
     x_basis <- x_basis[, unique_columns]
     basis_list <- basis_list[unique_columns]
+    penalty_factor <- penalty_factor[unique_columns]
   }
   copy_map <- seq_along(basis_list)
   names(copy_map) <- seq_along(basis_list)
