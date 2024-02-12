@@ -182,6 +182,7 @@ fit_hal <- function(X,
                       base_num_knots_0 = 200,
                       base_num_knots_1 = 50
                     ),
+                    knot_screen_algorithm = NULL,
                     reduce_basis = NULL,
                     family = c("gaussian", "binomial", "poisson", "cox", "mgaussian"),
                     lambda = NULL,
@@ -321,14 +322,23 @@ fit_hal <- function(X,
 
   # enumerate basis functions for making HAL design matrix
   if (is.null(basis_list)) {
-    basis_list <- enumerate_basis(
-      X,
-      max_degree = max_degree,
-      smoothness_orders = smoothness_orders,
-      num_knots = num_knots,
-      include_lower_order = FALSE,
-      include_zero_order = FALSE
-    )
+    if (!is.null(knot_screen_algorithm)) {
+      basis_list <- cluster_knot_screening(
+        X = X,
+        algorithm = knot_screen_algorithm,
+        num_clusters = num_clusters,
+        max_degree = max_degree
+      )
+    } else {
+      basis_list <- enumerate_basis(
+        X,
+        max_degree = max_degree,
+        smoothness_orders = smoothness_orders,
+        num_knots = num_knots,
+        include_lower_order = FALSE,
+        include_zero_order = FALSE
+      )
+    }
   }
 
   # bookkeeping: get end time of enumerate basis procedure
