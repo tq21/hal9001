@@ -183,6 +183,7 @@ fit_hal <- function(X,
                       base_num_knots_1 = 50
                     ),
                     knot_screen_algorithm = NULL,
+                    num_clusters = NULL,
                     reduce_basis = NULL,
                     family = c("gaussian", "binomial", "poisson", "cox", "mgaussian"),
                     lambda = NULL,
