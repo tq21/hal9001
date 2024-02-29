@@ -16,7 +16,7 @@
 #' basis functions for the full dimensionality of the input matrix.
 #'
 #' @importFrom stats kmeans
-#' @importFrom clusters pam
+#' @importFrom cluster pam
 #'
 #' @returns A `list` of basis functions generated for all covariates and
 #' interaction thereof up to a pre-specified degree.
@@ -45,7 +45,7 @@ cluster_knot_screening <- function(X,
                                    num_clusters = NULL,
                                    max_degree = NULL) {
 
-  if (is.null(num_clusters)) num_clusters <- round(nrow(X) / 2)
+  if (is.null(num_clusters)) num_clusters <- ceiling(nrow(X)^(1/3)*5)
   if (is.null(max_degree)) max_degree <- ncol(X)
 
   if (!is.data.table(X)) {

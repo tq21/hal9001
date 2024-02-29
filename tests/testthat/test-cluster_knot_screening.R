@@ -17,7 +17,7 @@ test_that("cluster_knot_screening using pam/kmeans works", {
 test_that("cluster_knot_screening returns the correct number of knots
           when num_clusters is unspecified", {
   X <- matrix(rnorm(300), ncol = 3)
-  default_num_clusters <- nrow(X) / 2
+  default_num_clusters <- ceiling(nrow(X)^(1/3)*5)
   num_combos <- choose(3, 1) + choose(3, 2) + choose(3, 3)
   kmeans_basis_list <- cluster_knot_screening(X, "kmeans")
   pam_basis_list <- cluster_knot_screening(X, "pam")
@@ -43,8 +43,8 @@ test_that("cluster_knot_screening returns the correct number of knots
   num_combos <- choose(3, 1) + choose(3, 2)
   kmeans_basis_list <- cluster_knot_screening(X, "kmeans", max_degree = max_degree)
   pam_basis_list <- cluster_knot_screening(X, "pam", max_degree = max_degree)
-  expect_equal(length(kmeans_basis_list), nrow(X)/2*num_combos)
-  expect_equal(length(pam_basis_list), nrow(X)/2*num_combos)
+  expect_equal(length(kmeans_basis_list), ceiling(nrow(X)^(1/3)*5)*num_combos)
+  expect_equal(length(pam_basis_list), ceiling(nrow(X)^(1/3)*5)*num_combos)
 })
 
 test_that("cluster_knot_screening returns the correct number of knots when the
