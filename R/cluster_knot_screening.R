@@ -17,7 +17,7 @@
 #'
 #' @importFrom stats kmeans
 #' @importFrom cluster pam
-#' @importFrom data.table as.data.table uniqueN
+#' @importFrom data.table is.data.table as.data.table uniqueN
 #'
 #' @returns A `list` of basis functions generated for all covariates and
 #' interaction thereof up to a pre-specified degree.
@@ -68,7 +68,8 @@ cluster_knot_screening <- function(X,
                      metric = "euclidean")
       centroids <- pam_obj$medoids
     } else if (algorithm == "kmeans") {
-      k_means <- kmeans(X_sub, centers = min(num_clusters, uniqueN(X_sub)))
+      k_means <- kmeans(X_sub, centers = min(num_clusters, uniqueN(X_sub)),
+                        algorithm = "MacQueen")
       centroids <- k_means$centers
     } else {
       stop("knot-point screening algorithm must be either pam or kmeans")

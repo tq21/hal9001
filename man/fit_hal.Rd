@@ -64,6 +64,15 @@ combinatorial explosions in the number of higher-degree and higher-order
 basis functions generated. This allows the complexity of the optimization
 problem to grow scalably. See details of \code{num_knots} more information.}
 
+\item{knot_screen_algorithm}{A \code{character} string specifying the
+clustering algorithm for knot-point screening to be used.
+Currently, only \code{kmeans} and \code{pam} are supported.}
+
+\item{num_clusters}{An \code{integer} for the number of desired clusters
+(knot-points) for each HAL basis function. Should be used jointly with the
+\code{knot_screen_algorithm} argument. If \code{NULL}, then uses
+\eqn{n^{1/3}\cdot 5} by default.}
+
 \item{reduce_basis}{Am optional \code{numeric} value bounded in the open
 unit interval indicating the minimum proportion of 1's in a basis function
 column needed for the basis function to be included in the procedure to fit
