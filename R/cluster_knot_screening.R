@@ -17,6 +17,7 @@
 #'
 #' @importFrom stats kmeans
 #' @importFrom cluster pam
+#' @importFrom data.table as.data.table uniqueN
 #'
 #' @returns A `list` of basis functions generated for all covariates and
 #' interaction thereof up to a pre-specified degree.
