@@ -13,8 +13,6 @@ fit_hal(
   smoothness_orders = 1,
   num_knots = num_knots_generator(max_degree = max_degree, smoothness_orders =
     smoothness_orders, base_num_knots_0 = 200, base_num_knots_1 = 50),
-  knot_screen_algorithm = NULL,
-  num_clusters = NULL,
   reduce_basis = NULL,
   family = c("gaussian", "binomial", "poisson", "cox", "mgaussian"),
   lambda = NULL,
@@ -63,15 +61,6 @@ recommended, and these defaults decrease \code{num_knots} with increasing
 combinatorial explosions in the number of higher-degree and higher-order
 basis functions generated. This allows the complexity of the optimization
 problem to grow scalably. See details of \code{num_knots} more information.}
-
-\item{knot_screen_algorithm}{A \code{character} string specifying the
-clustering algorithm for knot-point screening to be used.
-Currently, only \code{kmeans} and \code{pam} are supported.}
-
-\item{num_clusters}{An \code{integer} for the number of desired clusters
-(knot-points) for each HAL basis function. Should be used jointly with the
-\code{knot_screen_algorithm} argument. If \code{NULL}, then uses
-\eqn{n^{1/3}\cdot 5} by default.}
 
 \item{reduce_basis}{Am optional \code{numeric} value bounded in the open
 unit interval indicating the minimum proportion of 1's in a basis function
