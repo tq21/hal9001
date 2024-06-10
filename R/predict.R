@@ -79,17 +79,39 @@ predict.hal9001 <- function(object,
   # generate predictions
   if (!family %in% c("cox", "mgaussian")) {
     if (ncol(object$coefs) > 1) {
-      preds <- apply(object$coefs, 2, function(hal_coefs) {
-        as.vector(Matrix::tcrossprod(
-          x = pred_x_basis,
-          y = hal_coefs[-1]
-        ) + hal_coefs[1])
-      })
+      if (family == "multinomial") {
+        preds <- apply(object$coefs, 1, function(hal_coefs) {
+          as.vector(Matrix::tcrossprod(
+            x = pred_x_basis,
+            y = t(as.vector(hal_coefs[[1]])[-1])) + hal_coefs[[1]][1])
+        })
+        preds <- apply(preds, 2, function(.x) {
+          exp(.x) / rowSums(exp(preds))
+        })
+      } else {
+        preds <- apply(object$coefs, 2, function(hal_coefs) {
+          as.vector(Matrix::tcrossprod(
+            x = pred_x_basis,
+            y = matrix(hal_coefs[-1], nrow = 1)
+          ) + hal_coefs[1])
+        })
+      }
     } else {
-      preds <- as.vector(Matrix::tcrossprod(
-        x = pred_x_basis,
-        y = matrix(object$coefs[-1], nrow = 1)
-      ) + object$coefs[1])
+      if (family == "multinomial") {
+        preds <- apply(object$coefs, 1, function(hal_coefs) {
+          as.vector(Matrix::tcrossprod(
+            x = pred_x_basis,
+            y = t(as.vector(hal_coefs[[1]])[-1])) + hal_coefs[[1]][1])
+        })
+        preds <- apply(preds, 2, function(.x) {
+          exp(.x) / rowSums(exp(preds))
+        })
+      } else {
+        preds <- as.vector(Matrix::tcrossprod(
+          x = pred_x_basis,
+          y = matrix(object$coefs[-1], nrow = 1)
+        ) + object$coefs[1])
+      }
     }
   } else {
     if(family == "cox") {

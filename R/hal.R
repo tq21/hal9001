@@ -183,7 +183,7 @@ fit_hal <- function(X,
                       base_num_knots_1 = 50
                     ),
                     reduce_basis = NULL,
-                    family = c("gaussian", "binomial", "poisson", "cox", "mgaussian"),
+                    family = c("gaussian", "binomial", "poisson", "cox", "mgaussian", "multinomial"),
                     lambda = NULL,
                     id = NULL,
                     weights = NULL,
